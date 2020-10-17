@@ -1,22 +1,39 @@
 <script lang="ts">
+	import moment from 'moment'
 	import LineChart from './LineChart.svelte'
 	import btcJson from '../data/btc-market-price.json'
+
 	let filteredData = btcJson.values.reverse().slice(0, 10)
+	let chartLabels = filteredData.map(a => a.x)
+
 	let chartData: object = {
 	datasets: [{
 		label: 'BTC price history',
-		labels: ['1','2','3','4','5','6','7','8','9','10'],
-		data: filteredData,
+		// labels: chartLabels.forEach(e => { moment(e * 1000).format('D, MMM, YYYY, HH:mm') }),
+		data: btcJson.values,
 		borderColor: '#3e95cd',
+		showLine: true,
 		fill: false,
 	}]	
 	}
-	const chartOptions: object ={
+	const chartOptions: object = {
 		beginAtZero: true,
-		parsing: {
-			xAxisKey: 'x',
-			yAxisKey: 'y'
-		}
+		scales: {
+			xAxes: [{
+				type: 'time',
+				time: {
+					// unit: 'month',
+					displayFormats: {
+						quarter: 'MMM YYYY'
+					}
+				},
+				
+			}]
+		},
+		// parsing: {
+		// 	xAxisKey: 'x',
+		// 	yAxisKey: 'y'
+		// }
 	}
 	console.log(filteredData)
 </script>

@@ -9,7 +9,7 @@
   const createChart = () => {
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
-      type: 'line',
+      type: 'scatter',
       data: data,
       options: options
     });
