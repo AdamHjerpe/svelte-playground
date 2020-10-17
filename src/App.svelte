@@ -1,19 +1,19 @@
 <script lang="ts">
 	import moment from 'moment'
 	import LineChart from './LineChart.svelte'
-	import btcJson from '../data/btc-market-price.json'
-
-	let filteredData = btcJson.values.reverse().slice(0, 10)
-	let chartLabels = filteredData.map(a => a.x)
-
+  import btcJson from '../data/btc-market-price.json'
+  
+	let modifiedBtcData: Array<object> = btcJson.values.map(object => ({
+    x: object.x * 1000,
+    y: object.y
+  }));
+  
 	let chartData: object = {
 	datasets: [{
 		label: 'BTC price history',
-		// labels: chartLabels.forEach(e => { moment(e * 1000).format('D, MMM, YYYY, HH:mm') }),
-		data: btcJson.values,
+		data: modifiedBtcData,
 		borderColor: '#3e95cd',
-		showLine: true,
-		fill: false,
+		fill: true,
 	}]	
 	}
 	const chartOptions: object = {
@@ -25,17 +25,14 @@
 					// unit: 'month',
 					displayFormats: {
 						quarter: 'MMM YYYY'
-					}
+					},
+					parser: 'X'
 				},
 				
 			}]
 		},
-		// parsing: {
-		// 	xAxisKey: 'x',
-		// 	yAxisKey: 'y'
-		// }
 	}
-	console.log(filteredData)
+	console.log(modifiedBtcData)
 </script>
 
 <main>
