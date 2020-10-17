@@ -1,12 +1,29 @@
 <script lang="ts">
-	export let name: string;
-	import BtcChart from './BtcChart.svelte'
+	import LineChart from './LineChart.svelte'
+	import btcJson from '../data/btc-market-price.json'
+	let filteredData = btcJson.values.reverse().slice(0, 10)
+	let chartData: object = {
+	datasets: [{
+		label: 'BTC price history',
+		labels: ['1','2','3','4','5','6','7','8','9','10'],
+		data: filteredData,
+		borderColor: '#3e95cd',
+		fill: false,
+	}]	
+	}
+	const chartOptions: object ={
+		beginAtZero: true,
+		parsing: {
+			xAxisKey: 'x',
+			yAxisKey: 'y'
+		}
+	}
+	console.log(filteredData)
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
+	<LineChart data={chartData} options={chartOptions}/>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-	<BtcChart />
 </main>
 
 <style>
@@ -15,13 +32,6 @@
 		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
 	}
 
 	@media (min-width: 640px) {
